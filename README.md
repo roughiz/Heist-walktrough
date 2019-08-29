@@ -32,7 +32,7 @@ Here we have an http site in port 80, smb and also port 5985 WinRm (it's like ss
 
 ## Enumeration 
 In the Home page we have a redirection to the login.php page, and we can authenticate as guest by clicking in the button "Login AS Guest" and the request redirect me to the page http://10.10.10.149/issues.php.
-![issue](https://github.com/roughiz/Arkham-walktrough/blob/master/isuue.png)
+![issue](https://github.com/roughiz/Heist-walktrough/blob/master/issue.png)
 We have some informations about config issues in a cisco router posted by a user "Hazard" and also a file with cisco config. In this file we have some hashes, so let's crack . 
 
 ## Username 
@@ -113,7 +113,7 @@ Finally the creds works for :
 ###### Q4)sJu\Y8qz*A3?d (chase)
 
 Now i'm in the box as chase, i have to enumerate for priv esc : 
-![User-flag](https://github.com/roughiz/Arkham-walktrough/blob/master/userflag.png)
+![User-flag](https://github.com/roughiz/Heist-walktrough/blob/master/userflag.png)
 
 ## Priv Esca :
 I found this file with PowerUp.ps1 , but it appears that creator has update the box and remove the passwords into (i was late :) )
@@ -127,21 +127,21 @@ $ cat C:\Windows\Panther\Unattend.xml
     </AutoLogon>
 ```
 With ps command we see a strange process "firefox.exe", and with "netstat -ano" we see that firefox.exe client is connected to localhsot , surelly connect to the local site , so let's try to dump this process memory.
-![ps-command](https://github.com/roughiz/Arkham-walktrough/blob/master/ps.png)
-![netstat](https://github.com/roughiz/Arkham-walktrough/blob/master/netstat.png)
+![ps-command](https://github.com/roughiz/Heist-walktrough/blob/master/ps.png)
+![netstat](https://github.com/roughiz/Heist-walktrough/blob/master/netstat.png)
 
 I used the function "Out-Minidump" from [here](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Out-Minidump.ps1) like :
 ```
 $ . .\PowerUp.ps1
 $ Out-Minidump -Process (Get-Process -Id 6156)  # id caught from ps 
 ```
-![dump](https://github.com/roughiz/Arkham-walktrough/blob/master/dump.png)
+![dump](https://github.com/roughiz/Heist-walktrough/blob/master/dump.png)
 And in my box, grep the file like: 
 ```
 $ strings firefox_6156.dmp  |  grep -Fi "password=" | grep -i "admin"
 MOZ_CRASHREPORTER_RESTART_ARG_1=localhost/login.php?login_username=admin@support.htb&login_password=4dD!5}x/re8]FBuZ&login=
 ```
-![adminpass](https://github.com/roughiz/Arkham-walktrough/blob/master/adminpass.png)
+![adminpass](https://github.com/roughiz/Heist-walktrough/blob/master/adminpass.png)
 Here the user use the client firefox and send the http request to authenticate into the web app and we can caught the authentication info as :
 
 ###### 4dD!5}x/re8]FBuZ (admin@support.htb)
@@ -169,14 +169,14 @@ get root.txt
 $ echo $(cat root.txt ) | wc -c
 33
 ```
-![flagroot](https://github.com/roughiz/Arkham-walktrough/blob/master/flagrootsmb.png)
+![flagroot](https://github.com/roughiz/Heist-walktrough/blob/master/flagrootsmb.png)
 #### From the box with the admin share
 
 ```
 $ net use r: \\SupportDesk\C$ /u:administrator "4dD!5}x/re8]FBuZ"
 $ r:
 ```
-![flagrootlocally](https://github.com/roughiz/Arkham-walktrough/blob/master/flagrootlocally.png)
+![flagrootlocally](https://github.com/roughiz/Heist-walktrough/blob/master/flagrootlocally.png)
 ### Nota : 
 - My wirn ruby script dosen't work for this box , i tried an other simple script. (don't know why!!)
 
